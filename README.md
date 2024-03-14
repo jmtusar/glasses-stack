@@ -1,8 +1,8 @@
-#Main problem:
+# Main problem:
 Simulation of queue using two stacks.
 
-#Real life scenario:
-Different color of glasses are in one stack.
+# Real life scenario:
+Different colors of glasses are in one stack.
 
-#Hints:
+# Hints:
 Just rotate the stack...
