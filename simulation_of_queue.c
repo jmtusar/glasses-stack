@@ -9,7 +9,7 @@ struct glass {
 
 // Structure for stack
 struct stack {
-    struct glass* createGlass;
+    struct glass* bottom;
     struct glass* top;
 };
 
@@ -30,7 +30,7 @@ struct glass* createGlass(int data) {
 // Function to create a new stack
 struct stack* createStack() {
     struct stack* newStack = (struct stack*)malloc(sizeof(struct stack));
-    newStack->createGlass = NULL;
+    newStack->bottom = NULL;
     newStack->top = NULL;
     return newStack;
 }
@@ -46,21 +46,21 @@ struct queue* createQueue() {
 // Function to enqueue an element
 void enqueue(struct queue* q, int data) {
     while (q->stack1->top != NULL) {
-        q->stack2->createGlass = q->stack1->top;
+        q->stack2->bottom = q->stack1->top;
         q->stack1->top = q->stack1->top->next;
-        q->stack2->createGlass->next = q->stack2->top;
-        q->stack2->top = q->stack2->createGlass;
+        q->stack2->bottom->next = q->stack2->top;
+        q->stack2->top = q->stack2->bottom;
     }
 
-    q->stack1->createGlass = createGlass(data);
-    q->stack1->createGlass->next = q->stack2->top;
-    q->stack2->top = q->stack1->createGlass;
+    q->stack1->bottom = createGlass(data);
+    q->stack1->bottom->next = q->stack2->top;
+    q->stack2->top = q->stack1->bottom;
 
     while (q->stack2->top != NULL) {
-        q->stack1->createGlass = q->stack2->top;
+        q->stack1->bottom = q->stack2->top;
         q->stack2->top = q->stack2->top->next;
-        q->stack1->createGlass->next = q->stack1->top;
-        q->stack1->top = q->stack1->createGlass;
+        q->stack1->bottom->next = q->stack1->top;
+        q->stack1->top = q->stack1->bottom;
     }
 }
 
@@ -72,9 +72,9 @@ int dequeue(struct queue* q) {
     }
 
     int data = q->stack1->top->data;
-    q->stack1->createGlass = q->stack1->top;
+    q->stack1->bottom = q->stack1->top;
     q->stack1->top = q->stack1->top->next;
-    free(q->stack1->createGlass);
+    free(q->stack1->bottom);
     return data;
 }
 
