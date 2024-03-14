@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define MAX 20
 
 // Structure for glass
 struct glass {
-    int data;
+    char glassColor[MAX];
     struct glass* next;
 };
 
@@ -20,9 +23,13 @@ struct queue {
 };
 
 // Function to create a new glass
-struct glass* createGlass(int data) {
+struct glass* createGlass(char glassColor[MAX]) {
     struct glass* newGlass = (struct glass*)malloc(sizeof(struct glass));
-    newGlass->data = data;
+    if(newGlass == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    strcpy(newGlass->glassColor, glassColor);
     newGlass->next = NULL;
     return newGlass;
 }
@@ -30,6 +37,10 @@ struct glass* createGlass(int data) {
 // Function to create a new stack
 struct stack* createStack() {
     struct stack* newStack = (struct stack*)malloc(sizeof(struct stack));
+    if(newStack == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
     newStack->bottom = NULL;
     newStack->top = NULL;
     return newStack;
@@ -38,13 +49,17 @@ struct stack* createStack() {
 // Function to create a new queue
 struct queue* createQueue() {
     struct queue* newQueue = (struct queue*)malloc(sizeof(struct queue));
+    if(newQueue == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
     newQueue->stack1 = createStack();
     newQueue->stack2 = createStack();
     return newQueue;
 }
 
 // Function to enqueue an element
-void enqueue(struct queue* q, int data) {
+void enqueue(struct queue* q, char glassColor[MAX]) {
     while (q->stack1->top != NULL) {
         q->stack2->bottom = q->stack1->top;
         q->stack1->top = q->stack1->top->next;
@@ -52,7 +67,7 @@ void enqueue(struct queue* q, int data) {
         q->stack2->top = q->stack2->bottom;
     }
 
-    q->stack1->bottom = createGlass(data);
+    q->stack1->bottom = createGlass(glassColor);
     q->stack1->bottom->next = q->stack2->top;
     q->stack2->top = q->stack1->bottom;
 
@@ -65,55 +80,59 @@ void enqueue(struct queue* q, int data) {
 }
 
 // Function to dequeue an element
-int dequeue(struct queue* q) {
+void dequeue(struct queue* q) {
     if (q->stack1->top == NULL) {
-        printf("Queue is empty.\n");
-        return -1;
+        printf("there are no glasses.\n");
+        exit(1);
     }
 
-    int data = q->stack1->top->data;
+    char tmp[MAX];
+    strcpy(tmp, q->stack1->top->glassColor);
     q->stack1->bottom = q->stack1->top;
     q->stack1->top = q->stack1->top->next;
     free(q->stack1->bottom);
-    return data;
+    printf("%s color glass is removed...\n", tmp);
 }
 
 // Function to display the queue
 void display(struct queue* q) {
+    int numOfGlass = 0;
     if (q->stack1->top == NULL) {
-        printf("Queue is empty.\n");
+        printf("there are no glasses.\n");
         return;
     }
 
     struct glass* temp = q->stack1->top;
-    printf("Queue: ");
+    printf("\ncolor of glasses are sequentially: ");
     while (temp != NULL) {
-        printf("%d ", temp->data);
+        printf("%s ", temp->glassColor);
         temp = temp->next;
+        numOfGlass++;
     }
     printf("\n");
+    printf("Total number of glasses: %d\n\n", numOfGlass);
 }
 
 int main() {
     struct queue* q = createQueue();
 
-    enqueue(q, 10);
-    enqueue(q, 20);
-    enqueue(q, 30);
-    enqueue(q, 130);
-    enqueue(q, 203);
-    enqueue(q, 303);
-    enqueue(q, 110);
-    enqueue(q, 202);
-    enqueue(q, 310);
+    enqueue(q, "red");
+    enqueue(q, "green");
+    enqueue(q, "blue");
+    enqueue(q, "yellow");
+    enqueue(q, "violet");
+    enqueue(q, "black");
+    enqueue(q, "white");
+    enqueue(q, "indigo");
+    enqueue(q, "gray");
 
-    display(q); // Output: Queue: 10 20 30
+    display(q);
 
-    printf("Dequeued element: %d\n", dequeue(q)); // Output: Dequeued element: 10
-    printf("Dequeued element: %d\n", dequeue(q));
-    printf("Dequeued element: %d\n", dequeue(q));
+    dequeue(q);
+    dequeue(q);
+    dequeue(q);
 
-    display(q); // Output: Queue: 20 30
+    display(q);
 
     return 0;
 }
