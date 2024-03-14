@@ -10,19 +10,19 @@ struct glass {
     struct glass* next;
 };
 
-// Structure for stack
+// structure for stack
 struct stack {
     struct glass* bottom;
     struct glass* top;
 };
 
-// Structure for queue
+// structure for queue
 struct queue {
     struct stack* stack1;
     struct stack* stack2;
 };
 
-// Function to create a new glass
+// function to create a new glass
 struct glass* createGlass(char glassColor[MAX]) {
     struct glass* newGlass = (struct glass*)malloc(sizeof(struct glass));
     if(newGlass == NULL) {
@@ -34,7 +34,7 @@ struct glass* createGlass(char glassColor[MAX]) {
     return newGlass;
 }
 
-// Function to create a new stack
+// function to create a new stack
 struct stack* createStack() {
     struct stack* newStack = (struct stack*)malloc(sizeof(struct stack));
     if(newStack == NULL) {
@@ -46,7 +46,7 @@ struct stack* createStack() {
     return newStack;
 }
 
-// Function to create a new queue
+// function to create a new queue
 struct queue* createQueue() {
     struct queue* newQueue = (struct queue*)malloc(sizeof(struct queue));
     if(newQueue == NULL) {
@@ -58,7 +58,7 @@ struct queue* createQueue() {
     return newQueue;
 }
 
-// Function to enqueue an element
+// function to enqueue an element
 void enqueue(struct queue* q, char glassColor[MAX]) {
     while (q->stack1->top != NULL) {
         q->stack2->bottom = q->stack1->top;
@@ -79,7 +79,7 @@ void enqueue(struct queue* q, char glassColor[MAX]) {
     }
 }
 
-// Function to dequeue an element
+// function to dequeue an element
 void dequeue(struct queue* q) {
     if (q->stack1->top == NULL) {
         printf("there are no glasses.\n");
@@ -94,7 +94,7 @@ void dequeue(struct queue* q) {
     printf("%s color glass is removed...\n", tmp);
 }
 
-// Function to display the queue
+// function to display the queue
 void display(struct queue* q) {
     int numOfGlass = 0;
     if (q->stack1->top == NULL) {
@@ -122,9 +122,9 @@ int main() {
     enqueue(q, "yellow");
     enqueue(q, "violet");
     enqueue(q, "black");
-    enqueue(q, "white");
-    enqueue(q, "indigo");
-    enqueue(q, "gray");
+    // enqueue(q, "white");
+    // enqueue(q, "indigo");
+    // enqueue(q, "gray");
 
     display(q);
 
