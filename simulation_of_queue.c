@@ -116,21 +116,17 @@ void display(struct queue* q) {
 int main() {
     struct queue* q = createQueue();
 
-    enqueue(q, "red");
-    enqueue(q, "green");
-    enqueue(q, "blue");
-    enqueue(q, "yellow");
-    enqueue(q, "violet");
-    enqueue(q, "black");
-    // enqueue(q, "white");
-    // enqueue(q, "indigo");
-    // enqueue(q, "gray");
+    // enqueue(q, "red");
+    // enqueue(q, "green");
+    // enqueue(q, "blue");
+    // enqueue(q, "yellow");
+    // enqueue(q, "violet");
+    
+    // display(q);
 
-    display(q);
-
-    dequeue(q);
-    dequeue(q);
-    dequeue(q);
+    // dequeue(q);
+    // dequeue(q);
+    // dequeue(q);
 
     display(q);
 
